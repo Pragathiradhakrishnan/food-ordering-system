@@ -1,0 +1,42 @@
+{% extends 'food/base.html' %}
+{% load static %}
+
+{% block title %}
+Home - Foodie
+{%  endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+<!--    Hero Section-->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold"> Delicious Food 😋 </h1>
+        <p class="lead text-muted"> Fresh and Tasty Food Delivered to your Doorstep...</p>
+        <a href="{% url 'menu' %}" class="btn btn-dark btn-lg mt-3">Explore Menu</a>
+    </div>
+<!--    Food Section-->
+    <h2 class="text-center mb-4">Popular Food</h2>
+    <div class="row">
+        {% for food in foods %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                {% if food.image %}
+                <a href="{% url 'food_detail' food.id %}">
+                    <img src="{{ food.image.url }}" class="card-img-top" height="220" style="object-fit: cover">
+                </a>
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title"> <a href="{% url 'food_detail' food.id %}" class="text-decoration-none text-dark">{{ food.name }}</a></h5>
+                    <p class="text-muted">{{ food.description }}</p>
+                    <h5 class="fw-bold">₹{{food.price}}</h5>
+                    <a href="{% url 'add_to_cart' food.id %}" class="btn btn-dark mt-2">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No Food Items Available</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

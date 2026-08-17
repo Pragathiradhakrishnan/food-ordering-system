@@ -1,0 +1,43 @@
+{% extends 'food/base.html' %}
+
+{% block title %} Menu-Foodie{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Our Menu🍽️</h1>
+        <p class="text-muted">Choose Your Favourite Food</p>
+    </div>
+<!--    Categories-->
+    <div class="text-center mb-5">
+        <a href="{% url 'menu' %}" class="btn btn-dark m-1">All</a>
+        {% for category in categories %}
+        <a href="{% url 'menu' %}?category={{category.id}}" class="btn btn-outline-dark m-1">{{category.name}}</a>
+        {% endfor %}
+    </div>
+<!--    Food items-->
+    <div class="row">
+        {% for food in foods %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <a href="{% url 'food_detail' food.id %}">
+                    {% if food.image %}
+                    <img src="{{ food.image.url }}" class="card-img-top" height="220" style="object-fit: cover">
+                    {% endif %}
+                </a>
+                <div class="card-body text-center">
+                    <h5 class="fw-bold"> <a href="{% url 'food_detail' food.id %}" class="text-decoration-none text-dark">{{food.name}} </a></h5>
+                    <p class="text-muted">{{food.description}}</p>
+                    <h5>₹{{food.price}}</h5>
+                    <a href="{% url 'add_to_cart' food.id %}" class="btn btn-dark"> Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center">
+            <p>No Food Items Available...</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
